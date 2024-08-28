@@ -12,7 +12,7 @@ namespace Home2.Task_2.Scripts.Models.WorkPatterns {
             CurrentPattern = workPatterns[0];
         }
 
-        public void SetNewCurrentPattern<T>() {
+        public void SetNewCurrentPattern<T>() where T : BaseWorkPattern {
             CurrentPattern = _workPatterns[typeof(T)];
         }
     }

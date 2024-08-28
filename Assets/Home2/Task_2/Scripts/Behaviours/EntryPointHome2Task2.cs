@@ -5,6 +5,7 @@ using Zenject;
 namespace Home2.Task_2.Scripts.Behaviours {
     public class EntryPointHome2Task2 : MonoBehaviour {
         [SerializeField] private NPCController _nPCController;
+        [SerializeField] private ButtonRoot _buttonRoot;
         private DefaultNPCCustomizer _defaultNPCCustomizer;
 
         [Inject]
@@ -14,6 +15,7 @@ namespace Home2.Task_2.Scripts.Behaviours {
 
 
         private void Start() {
+            _buttonRoot.Init();
             _defaultNPCCustomizer.Customize(_nPCController);
         }
     }
