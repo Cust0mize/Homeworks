@@ -12,5 +12,4 @@ namespace Home2.Task_2.Scripts.Models.WorkPatterns {
             Debug.Log("Пойду поем!");
         }
     }
-
 }

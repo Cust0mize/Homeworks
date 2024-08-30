@@ -13,7 +13,6 @@ namespace Home2.Task_2.Scripts.Behaviours {
             _defaultNPCCustomizer = defaultNPCCustomizer;
         }
 
-
         private void Start() {
             _buttonRoot.Init();
             _defaultNPCCustomizer.Customize(_nPCController);
