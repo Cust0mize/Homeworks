@@ -1,19 +1,29 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
+using System.Linq;
 using System.IO;
 using System;
 
 namespace BaseStateMachines {
     public abstract class BaseStateMachine<StateType> : IStateSwitcher<StateType> where StateType : IBaseState {
         private Dictionary<Type, StateType> _states = new();
+        private readonly bool _checkIsEntryToCurrentState;
+
         protected StateType CurrentState { get; private set; }
 
+        protected BaseStateMachine(bool checkIsEntryToCurrentState) {
+            _checkIsEntryToCurrentState = checkIsEntryToCurrentState;
+        }
+
         public void AddState(StateType stateType) {
-            bool isEntryState = _states.Count == 0;
+            if (_states.TryAdd(stateType.GetType(), stateType) == false) {
+                Debug.LogWarning($"This state {stateType.GetType().Name} is contains in {GetType().Name}!");
+            }
+        }
 
-            _states.Add(stateType.GetType(), stateType);
-
-            if (isEntryState) {
-                CurrentState = _states[stateType.GetType()];
+        public void Init() {
+            if (CurrentState == null) {
+                CurrentState = _states.ElementAt(0).Value;
                 CurrentState.Entry();
             }
         }
@@ -21,7 +31,8 @@ namespace BaseStateMachines {
         public void Switch<T>() where T : StateType {
             StateType newState = _states[typeof(T)];
 
-            if (CurrentState != null && newState != null & CurrentState.Equals(newState) == false) {
+            bool isCurrentState = _checkIsEntryToCurrentState ? CurrentState.Equals(newState) == false : true;
+            if (CurrentState != null && isCurrentState) {
                 CurrentState.Exit();
                 CurrentState = newState;
                 CurrentState.Entry();

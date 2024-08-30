@@ -12,11 +12,12 @@ namespace Home2.Task_2.Scripts.Models.NPCCustomizers {
         }
 
         public NPCController Customize(NPCController nPCController) {
-            NPCStateMachine nPCStateMachine = new();
+            NPCStateMachine nPCStateMachine = new(true);
             nPCController.Init(nPCStateMachine);
             nPCStateMachine.AddState(_nPCStateCreator.Create<RelaxStateCreator>(nPCController, nPCStateMachine));
             nPCStateMachine.AddState(_nPCStateCreator.Create<WorkStateCreator>(nPCController, nPCStateMachine));
             nPCStateMachine.AddState(_nPCStateCreator.Create<MoveStateCreator>(nPCController, nPCStateMachine));
+            nPCStateMachine.Init();
             return nPCController;
         }
     }
